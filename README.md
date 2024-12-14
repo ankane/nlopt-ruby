@@ -12,7 +12,7 @@ First, install NLopt. For Homebrew, use:
 brew install nlopt
 ```
 
-And for Ubuntu, use:
+And for Ubuntu 22.04+, use:
 
 ```sh
 sudo apt-get install libnlopt0
