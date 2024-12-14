@@ -15,15 +15,15 @@ module NLopt
     end
 
     def set_min_objective(f)
-      # keep reference
-      @f = objective_callback(f)
-      check_res FFI.nlopt_set_min_objective(@opt, @f, nil)
+      cb = objective_callback(f)
+      check_res FFI.nlopt_set_min_objective(@opt, cb, nil)
+      @cb = cb # keep reference
     end
 
     def set_max_objective(f)
-      # keep reference
-      @f = objective_callback(f)
-      check_res FFI.nlopt_set_max_objective(@opt, @f, nil)
+      cb = objective_callback(f)
+      check_res FFI.nlopt_set_max_objective(@opt, cb, nil)
+      @cb = cb # keep reference
     end
 
     def set_lower_bounds(lb)
