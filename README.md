@@ -54,6 +54,10 @@ Perform the optimization
 xopt = opt.optimize([2, 3])
 ```
 
+## API
+
+This library follows the [NLopt Python API](https://nlopt.readthedocs.io/en/latest/NLopt_Python_Reference/). You can follow Python tutorials and convert the code to Ruby in many cases. Feel free to open an issue if you run into problems.
+
 ## History
 
 View the [changelog](https://github.com/ankane/nlopt-ruby/blob/master/CHANGELOG.md)
