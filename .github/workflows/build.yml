@@ -1,0 +1,26 @@
+name: build
+on: [push, pull_request]
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ruby: 3.3
+            os: ubuntu-24.04
+          - ruby: 3.2
+            os: ubuntu-20.04
+          - ruby: 3.1
+            os: macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        run: sudo apt-get update && sudo apt-get install libnlopt0
+      - if: ${{ startsWith(matrix.os, 'macos') }}
+        run: brew install nlopt
+      - run: bundle exec rake test
