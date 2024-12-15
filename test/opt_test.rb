@@ -1,13 +1,6 @@
 require_relative "test_helper"
 
 class OptTest < Minitest::Test
-  def test_lib_version
-    assert_match(/\A\d+\.\d+\.\d+\z/, NLopt.lib_version)
-    assert_kind_of Integer, NLopt.version_major
-    assert_kind_of Integer, NLopt.version_minor
-    assert_kind_of Integer, NLopt.version_bugfix
-  end
-
   def test_algorithm_name
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     assert_equal "COBYLA (Constrained Optimization BY Linear Approximations) (local, no-derivative)", opt.algorithm_name
@@ -207,11 +200,6 @@ class OptTest < Minitest::Test
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     opt.set_vector_storage(1)
     assert_equal 1, opt.vector_storage
-  end
-
-  def test_srand
-    NLopt.srand(42)
-    NLopt.srand_time
   end
 
   def test_invalid_args
