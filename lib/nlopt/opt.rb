@@ -185,6 +185,10 @@ module NLopt
       read_dptr(x)
     end
 
+    def force_stop
+      check_res FFI.nlopt_force_stop(@opt)
+    end
+
     def set_local_optimizer(local_opt)
       check_res FFI.nlopt_set_local_optimizer(@opt, local_opt)
     end
