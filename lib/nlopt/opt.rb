@@ -116,6 +116,20 @@ module NLopt
       bounds { |ptr| FFI.nlopt_get_xtol_abs(@opt, ptr) }
     end
 
+    def set_x_weights(w)
+      if w.is_a?(Array)
+        check_res FFI.nlopt_set_x_weights(@opt, double_ptr(w))
+      elsif w.is_a?(Numeric)
+        check_res FFI.nlopt_set_x_weights1(@opt, w)
+      else
+        raise TypeError, "expected array or numeric"
+      end
+    end
+
+    def x_weights
+      bounds { |ptr| FFI.nlopt_get_x_weights(@opt, ptr) }
+    end
+
     def set_maxeval(maxeval)
       check_res FFI.nlopt_set_maxeval(@opt, maxeval)
     end

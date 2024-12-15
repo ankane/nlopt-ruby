@@ -159,6 +159,16 @@ class OptTest < Minitest::Test
     assert_equal [5, 6], opt.xtol_abs
   end
 
+  def test_x_weights
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+
+    opt.set_x_weights(1)
+    assert_equal [1, 1], opt.x_weights
+
+    opt.set_x_weights([1, 2])
+    assert_equal [1, 2], opt.x_weights
+  end
+
   def test_maxtime
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     opt.set_maxtime(1)
