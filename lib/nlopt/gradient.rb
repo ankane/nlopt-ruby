@@ -6,12 +6,12 @@ module NLopt
     end
 
     def [](index)
-      check_index(index)
+      index = check_index(index)
       @ptr[index * Fiddle::SIZEOF_DOUBLE, Fiddle::SIZEOF_DOUBLE].unpack1("d")
     end
 
     def []=(index, value)
-      check_index(index)
+      index = check_index(index)
       @ptr[index * Fiddle::SIZEOF_DOUBLE, Fiddle::SIZEOF_DOUBLE] = [value].pack("d")
     end
 
@@ -27,9 +27,11 @@ module NLopt
     private
 
     def check_index(index)
-      if index >= @n
+      index = @n + index if index < 0
+      if index < 0 || index >= @n
         raise IndexError, "index #{index} outside of array bounds"
       end
+      index
     end
   end
 end
