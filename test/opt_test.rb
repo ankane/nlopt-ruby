@@ -68,6 +68,15 @@ class OptTest < Minitest::Test
         grad[2]
       end
 
+      x[0] * x[0] + x[1] * x[1]
+    end
+    opt.set_min_objective(f)
+    assert_elements_in_delta [0, 0], opt.optimize([1, 1])
+  end
+
+  def test_gradient_negative_index
+    opt = NLopt::Opt.new("LD_LBFGS", 2)
+    f = lambda do |x, grad|
       grad[-1] = 2 * x[1]
       grad[-2] = 2 * x[0]
       assert_raises(IndexError) do
