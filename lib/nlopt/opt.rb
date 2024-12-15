@@ -102,6 +102,20 @@ module NLopt
       FFI.nlopt_get_xtol_rel(@opt)
     end
 
+    def set_xtol_abs(tol)
+      if tol.is_a?(Array)
+        check_res FFI.nlopt_set_xtol_abs(@opt, Fiddle::Pointer[tol.pack("d*")])
+      elsif tol.is_a?(Numeric)
+        check_res FFI.nlopt_set_xtol_abs1(@opt, tol)
+      else
+        raise TypeError, "expected array or numeric"
+      end
+    end
+
+    def xtol_abs
+      bounds { |ptr| FFI.nlopt_get_xtol_abs(@opt, ptr) }
+    end
+
     def set_maxeval(maxeval)
       check_res FFI.nlopt_set_maxeval(@opt, maxeval)
     end

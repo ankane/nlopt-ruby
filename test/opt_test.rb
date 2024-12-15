@@ -113,6 +113,12 @@ class OptTest < Minitest::Test
 
     opt.set_xtol_rel(3)
     assert_equal 3, opt.xtol_rel
+
+    opt.set_xtol_abs(4)
+    assert_equal [4, 4], opt.xtol_abs
+
+    opt.set_xtol_abs([5, 6])
+    assert_equal [5, 6], opt.xtol_abs
   end
 
   def test_maxtime
