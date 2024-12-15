@@ -61,11 +61,17 @@ class OptTest < Minitest::Test
       assert_raises(IndexError) do
         grad[2] = 1
       end
+      assert_raises(IndexError) do
+        grad[-3] = 1
+      end
 
       assert_equal 2 * x[0], grad[0]
       assert_equal 2 * x[1], grad[1]
       assert_raises(IndexError) do
         grad[2]
+      end
+      assert_raises(IndexError) do
+        grad[-3]
       end
 
       x[0] * x[0] + x[1] * x[1]
