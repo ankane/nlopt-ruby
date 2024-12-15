@@ -55,11 +55,11 @@ module NLopt
     end
 
     def lower_bounds
-      bounds { |ptr| FFI.nlopt_get_lower_bounds(@opt, ptr) }
+      out_dptr { |ptr| FFI.nlopt_get_lower_bounds(@opt, ptr) }
     end
 
     def upper_bounds
-      bounds { |ptr| FFI.nlopt_get_upper_bounds(@opt, ptr) }
+      out_dptr { |ptr| FFI.nlopt_get_upper_bounds(@opt, ptr) }
     end
 
     def remove_inequality_constraints
@@ -113,7 +113,7 @@ module NLopt
     end
 
     def xtol_abs
-      bounds { |ptr| FFI.nlopt_get_xtol_abs(@opt, ptr) }
+      out_dptr { |ptr| FFI.nlopt_get_xtol_abs(@opt, ptr) }
     end
 
     def set_x_weights(w)
@@ -127,7 +127,7 @@ module NLopt
     end
 
     def x_weights
-      bounds { |ptr| FFI.nlopt_get_x_weights(@opt, ptr) }
+      out_dptr { |ptr| FFI.nlopt_get_x_weights(@opt, ptr) }
     end
 
     def set_maxeval(maxeval)
@@ -236,19 +236,19 @@ module NLopt
       ptr.to_s(size).unpack("d*")
     end
 
+    def out_dptr
+      ptr = Fiddle::Pointer.malloc(dimension * Fiddle::SIZEOF_DOUBLE)
+      res = yield ptr
+      check_res res
+      read_dptr(ptr)
+    end
+
     def objective_callback(f)
      Fiddle::Closure::BlockCaller.new(Fiddle::TYPE_DOUBLE, [Fiddle::TYPE_UINT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP]) do |n, x, gradient, func_data|
         x = read_dptr(x, n * Fiddle::SIZEOF_DOUBLE)
         grad = !gradient.null? ? Gradient.new(gradient, n) : nil
         f.call(x, grad)
       end
-    end
-
-    def bounds
-      ptr = Fiddle::Pointer.malloc(dimension * Fiddle::SIZEOF_DOUBLE)
-      res = yield ptr
-      check_res res
-      read_dptr(ptr)
     end
   end
 end
