@@ -45,4 +45,16 @@ module NLopt
   def self.srand_time
     FFI.nlopt_srand_time
   end
+
+  def self.version_major
+    lib_version.split(".")[0].to_i
+  end
+
+  def self.version_minor
+    lib_version.split(".")[1].to_i
+  end
+
+  def self.version_bugfix
+    lib_version.split(".")[2].to_i
+  end
 end
