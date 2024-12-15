@@ -1,4 +1,4 @@
-## 0.1.1 (unreleased)
+## 0.1.1 (2024-12-15)
 
 - Added more methods
 
