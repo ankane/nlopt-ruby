@@ -231,13 +231,14 @@ module NLopt
       Fiddle::Pointer[arr.pack("d#{n}")]
     end
 
-    def read_ptr(ptr)
-      ptr.to_s(ptr.size).unpack("d*")
+    def read_ptr(ptr, size = nil)
+      size ||= ptr.size
+      ptr.to_s(size).unpack("d*")
     end
 
     def objective_callback(f)
      Fiddle::Closure::BlockCaller.new(Fiddle::TYPE_DOUBLE, [Fiddle::TYPE_UINT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP]) do |n, x, gradient, func_data|
-        x = x.to_s(n * Fiddle::SIZEOF_DOUBLE).unpack("d*")
+        x = read_ptr(x, n * Fiddle::SIZEOF_DOUBLE)
         grad = !gradient.null? ? Gradient.new(gradient, n) : nil
         f.call(x, grad)
       end
