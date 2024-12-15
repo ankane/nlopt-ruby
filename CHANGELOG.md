@@ -1,6 +1,7 @@
 ## 0.1.2 (unreleased)
 
 - Added `add_inequality_constraint` and `add_equality_constraint` methods
+- Added `initial_step` method
 
 ## 0.1.1 (2024-12-15)
 

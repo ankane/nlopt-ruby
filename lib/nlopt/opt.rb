@@ -224,6 +224,10 @@ module NLopt
       end
     end
 
+    def initial_step(x)
+      out_dptr { |ptr| FFI.nlopt_get_initial_step(@opt, alloc_dptr(x), ptr) }
+    end
+
     def set_population(pop)
       check_res FFI.nlopt_set_population(@opt, pop)
     end

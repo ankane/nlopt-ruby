@@ -240,6 +240,7 @@ class OptTest < Minitest::Test
 
   def test_initial_step
     opt = NLopt::Opt.new("LN_COBYLA", 2)
+    assert_equal [1, 2], opt.initial_step([1, 2])
     opt.set_initial_step(1)
     opt.set_initial_step([1, 2])
   end
