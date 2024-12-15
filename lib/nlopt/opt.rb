@@ -36,7 +36,7 @@ module NLopt
 
     def set_lower_bounds(lb)
       if lb.is_a?(Array)
-        check_res FFI.nlopt_set_lower_bounds(@opt, double_ptr(lb))
+        check_res FFI.nlopt_set_lower_bounds(@opt, alloc_dptr(lb))
       elsif lb.is_a?(Numeric)
         check_res FFI.nlopt_set_lower_bounds1(@opt, lb)
       else
@@ -46,7 +46,7 @@ module NLopt
 
     def set_upper_bounds(ub)
       if ub.is_a?(Array)
-        check_res FFI.nlopt_set_upper_bounds(@opt, double_ptr(ub))
+        check_res FFI.nlopt_set_upper_bounds(@opt, alloc_dptr(ub))
       elsif ub.is_a?(Numeric)
         check_res FFI.nlopt_set_upper_bounds1(@opt, ub)
       else
@@ -104,7 +104,7 @@ module NLopt
 
     def set_xtol_abs(tol)
       if tol.is_a?(Array)
-        check_res FFI.nlopt_set_xtol_abs(@opt, double_ptr(tol))
+        check_res FFI.nlopt_set_xtol_abs(@opt, alloc_dptr(tol))
       elsif tol.is_a?(Numeric)
         check_res FFI.nlopt_set_xtol_abs1(@opt, tol)
       else
@@ -118,7 +118,7 @@ module NLopt
 
     def set_x_weights(w)
       if w.is_a?(Array)
-        check_res FFI.nlopt_set_x_weights(@opt, double_ptr(w))
+        check_res FFI.nlopt_set_x_weights(@opt, alloc_dptr(w))
       elsif w.is_a?(Numeric)
         check_res FFI.nlopt_set_x_weights1(@opt, w)
       else
@@ -172,7 +172,7 @@ module NLopt
     end
 
     def optimize(init)
-      x = double_ptr(init)
+      x = alloc_dptr(init)
       opt_f = Fiddle::Pointer.malloc(Fiddle::SIZEOF_DOUBLE)
       res = FFI.nlopt_optimize(@opt, x, opt_f)
 
@@ -182,7 +182,7 @@ module NLopt
         raise Error, msg
       end
 
-      read_ptr(x)
+      read_dptr(x)
     end
 
     def set_local_optimizer(local_opt)
@@ -191,7 +191,7 @@ module NLopt
 
     def set_initial_step(dx)
       if dx.is_a?(Array)
-        check_res FFI.nlopt_set_initial_step(@opt, double_ptr(dx))
+        check_res FFI.nlopt_set_initial_step(@opt, alloc_dptr(dx))
       elsif dx.is_a?(Numeric)
         check_res FFI.nlopt_set_initial_step1(@opt, dx)
       else
@@ -223,7 +223,7 @@ module NLopt
       end
     end
 
-    def double_ptr(arr)
+    def alloc_dptr(arr)
       n = dimension
       if arr.size != n
         raise ArgumentError, "size does not match dimension"
@@ -231,14 +231,14 @@ module NLopt
       Fiddle::Pointer[arr.pack("d#{n}")]
     end
 
-    def read_ptr(ptr, size = nil)
+    def read_dptr(ptr, size = nil)
       size ||= ptr.size
       ptr.to_s(size).unpack("d*")
     end
 
     def objective_callback(f)
      Fiddle::Closure::BlockCaller.new(Fiddle::TYPE_DOUBLE, [Fiddle::TYPE_UINT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP]) do |n, x, gradient, func_data|
-        x = read_ptr(x, n * Fiddle::SIZEOF_DOUBLE)
+        x = read_dptr(x, n * Fiddle::SIZEOF_DOUBLE)
         grad = !gradient.null? ? Gradient.new(gradient, n) : nil
         f.call(x, grad)
       end
@@ -248,7 +248,7 @@ module NLopt
       ptr = Fiddle::Pointer.malloc(dimension * Fiddle::SIZEOF_DOUBLE)
       res = yield ptr
       check_res res
-      read_ptr(ptr)
+      read_dptr(ptr)
     end
   end
 end
