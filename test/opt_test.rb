@@ -25,6 +25,8 @@ class OptTest < Minitest::Test
     opt.set_lower_bounds([1, 2])
     assert_equal [1, 2], opt.lower_bounds
     assert_elements_in_delta [1, 2], opt.optimize([2, 3])
+
+    assert_in_delta 3, opt.last_optimum_value
   end
 
   def test_set_max_objective

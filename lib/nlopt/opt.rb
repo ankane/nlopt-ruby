@@ -1,5 +1,7 @@
 module NLopt
   class Opt
+    attr_reader :last_optimum_value
+
     def initialize(algorithm, n)
       algorithm = FFI.nlopt_algorithm_from_string(algorithm)
       if algorithm < 0
@@ -181,6 +183,8 @@ module NLopt
         msg = !errmsg.null? ? errmsg.to_s : "Bad result: #{FFI.nlopt_result_to_string(res).to_s}"
         raise Error, msg
       end
+
+      @last_optimum_value = opt_f.to_s(opt_f.size).unpack1("d")
 
       read_dptr(x)
     end
