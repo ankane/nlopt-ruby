@@ -184,7 +184,7 @@ module NLopt
         raise Error, msg
       end
 
-      @last_optimum_value = opt_f.to_s(opt_f.size).unpack1("d")
+      @last_optimum_value = read_dptr(opt_f)[0]
 
       read_dptr(x)
     end
