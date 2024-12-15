@@ -185,6 +185,10 @@ module NLopt
       x.to_s(x.size).unpack("d*")
     end
 
+    def set_local_optimizer(local_opt)
+      check_res FFI.nlopt_set_local_optimizer(@opt, local_opt)
+    end
+
     def set_initial_step(dx)
       if dx.is_a?(Array)
         check_res FFI.nlopt_set_initial_step(@opt, double_ptr(dx))
