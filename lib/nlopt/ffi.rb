@@ -21,10 +21,16 @@ module NLopt
     typealias "unsigned", "unsigned int"
 
     extern "const char * nlopt_algorithm_name(nlopt_algorithm a)"
+
+    # nlopt_algorithm enum <-> string conversion
+
     extern "const char * nlopt_algorithm_to_string(nlopt_algorithm algorithm)"
     extern "nlopt_algorithm nlopt_algorithm_from_string(const char *name)"
 
+    # nlopt_result enum <-> string conversion
+
     extern "const char * nlopt_result_to_string(nlopt_result algorithm)"
+    extern "nlopt_result nlopt_result_from_string(const char *name)"
 
     extern "void nlopt_srand(unsigned long seed)"
     extern "void nlopt_srand_time(void)"
@@ -42,8 +48,12 @@ module NLopt
     extern "nlopt_result nlopt_set_min_objective(nlopt_opt opt, nlopt_func f, void *f_data)"
     extern "nlopt_result nlopt_set_max_objective(nlopt_opt opt, nlopt_func f, void *f_data)"
 
+    extern "nlopt_result nlopt_set_precond_min_objective(nlopt_opt opt, nlopt_func f, nlopt_precond pre, void *f_data)"
+    extern "nlopt_result nlopt_set_precond_max_objective(nlopt_opt opt, nlopt_func f, nlopt_precond pre, void *f_data)"
+
     extern "nlopt_algorithm nlopt_get_algorithm(const nlopt_opt opt)"
     extern "unsigned nlopt_get_dimension(const nlopt_opt opt)"
+
     extern "const char * nlopt_get_errmsg(nlopt_opt opt)"
 
     # generic algorithm parameters
