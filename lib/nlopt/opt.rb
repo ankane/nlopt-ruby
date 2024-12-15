@@ -240,6 +240,10 @@ module NLopt
       FFI.nlopt_get_vector_storage(@opt)
     end
 
+    def to_ptr
+      @opt
+    end
+
     private
 
     def check_res(res)

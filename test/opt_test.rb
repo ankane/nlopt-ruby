@@ -232,6 +232,12 @@ class OptTest < Minitest::Test
     assert_nil opt.nth_param(1)
   end
 
+  def test_set_local_optimizer
+    opt = NLopt::Opt.new("GN_MLSL", 2)
+    local_opt = NLopt::Opt.new("LN_COBYLA", 2)
+    opt.set_local_optimizer(local_opt)
+  end
+
   def test_initial_step
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     opt.set_initial_step(1)
