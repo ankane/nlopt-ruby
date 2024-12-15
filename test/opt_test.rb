@@ -23,9 +23,11 @@ class OptTest < Minitest::Test
     opt.set_min_objective(f)
 
     opt.set_lower_bounds(1)
+    assert_equal [1, 1], opt.lower_bounds
     assert_elements_in_delta [1, 1], opt.optimize([2, 3])
 
     opt.set_lower_bounds([1, 2])
+    assert_equal [1, 2], opt.lower_bounds
     assert_elements_in_delta [1, 2], opt.optimize([2, 3])
   end
 
@@ -38,9 +40,11 @@ class OptTest < Minitest::Test
     opt.set_maxeval(100)
 
     opt.set_upper_bounds(4)
+    assert_equal [4, 4], opt.upper_bounds
     assert_elements_in_delta [4, 4], opt.optimize([2, 3])
 
     opt.set_upper_bounds([3, 4])
+    assert_equal [3, 4], opt.upper_bounds
     assert_elements_in_delta [3, 4], opt.optimize([2, 3])
   end
 

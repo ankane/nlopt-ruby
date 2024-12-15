@@ -46,6 +46,14 @@ module NLopt
       end
     end
 
+    def lower_bounds
+      bounds { |ptr| FFI.nlopt_get_lower_bounds(@opt, ptr) }
+    end
+
+    def upper_bounds
+      bounds { |ptr| FFI.nlopt_get_upper_bounds(@opt, ptr) }
+    end
+
     def set_maxeval(maxeval)
       check_res FFI.nlopt_set_maxeval(@opt, maxeval)
     end
@@ -94,6 +102,13 @@ module NLopt
         grad = !gradient.null? ? Gradient.new(gradient, n) : nil
         f.call(x, grad)
       end
+    end
+
+    def bounds
+      ptr = Fiddle::Pointer.malloc(dimension * Fiddle::SIZEOF_DOUBLE)
+      res = yield ptr
+      check_res res
+      ptr.to_s(ptr.size).unpack("d*")
     end
   end
 end
