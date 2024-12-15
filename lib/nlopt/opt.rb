@@ -62,6 +62,14 @@ module NLopt
       check_res FFI.nlopt_remove_equality_constraints(@opt)
     end
 
+    def set_stopval(stopval)
+      check_res FFI.nlopt_set_stopval(@opt, stopval)
+    end
+
+    def stopval
+      FFI.nlopt_get_stopval(@opt)
+    end
+
     def set_maxeval(maxeval)
       check_res FFI.nlopt_set_maxeval(@opt, maxeval)
     end
