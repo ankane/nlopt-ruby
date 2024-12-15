@@ -185,6 +185,16 @@ module NLopt
       x.to_s(x.size).unpack("d*")
     end
 
+    def set_initial_step(dx)
+      if dx.is_a?(Array)
+        check_res FFI.nlopt_set_initial_step(@opt, double_ptr(dx))
+      elsif dx.is_a?(Numeric)
+        check_res FFI.nlopt_set_initial_step1(@opt, dx)
+      else
+        raise TypeError, "expected array or numeric"
+      end
+    end
+
     private
 
     def check_res(res)

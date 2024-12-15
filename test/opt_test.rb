@@ -188,6 +188,12 @@ class OptTest < Minitest::Test
     assert_nil opt.nth_param(1)
   end
 
+  def test_initial_step
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+    opt.set_initial_step(1)
+    opt.set_initial_step([1, 2])
+  end
+
   def test_invalid_args
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     f = lambda do |x, grad|
