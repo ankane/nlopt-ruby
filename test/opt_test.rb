@@ -194,6 +194,12 @@ class OptTest < Minitest::Test
     opt.set_initial_step([1, 2])
   end
 
+  def test_population
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+    opt.set_population(1)
+    assert_equal 1, opt.population
+  end
+
   def test_invalid_args
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     f = lambda do |x, grad|

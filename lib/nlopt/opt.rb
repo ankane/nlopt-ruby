@@ -195,6 +195,14 @@ module NLopt
       end
     end
 
+    def set_population(pop)
+      check_res FFI.nlopt_set_population(@opt, pop)
+    end
+
+    def population
+      FFI.nlopt_get_population(@opt)
+    end
+
     private
 
     def check_res(res)
