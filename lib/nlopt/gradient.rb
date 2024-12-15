@@ -26,10 +26,11 @@ module NLopt
 
     private
 
-    def check_index(index)
-      index = @n + index if index < 0
+    def check_index(original_index)
+      index = original_index
+      index += @n if index < 0
       if index < 0 || index >= @n
-        raise IndexError, "index #{index} outside of array bounds"
+        raise IndexError, "index #{original_index} outside of array bounds"
       end
       index
     end
