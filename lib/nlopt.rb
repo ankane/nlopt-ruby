@@ -37,4 +37,12 @@ module NLopt
     FFI.nlopt_version(major, minor, bugfix)
     [major, minor, bugfix].map { |v| v.to_s(v.size).unpack1("i") }.join(".")
   end
+
+  def self.srand(seed)
+    FFI.nlopt_srand(seed)
+  end
+
+  def self.srand_time
+    FFI.nlopt_srand_time
+  end
 end

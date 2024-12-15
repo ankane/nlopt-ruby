@@ -200,6 +200,11 @@ class OptTest < Minitest::Test
     assert_equal 1, opt.population
   end
 
+  def test_srand
+    NLopt.srand(42)
+    NLopt.srand_time
+  end
+
   def test_invalid_args
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     f = lambda do |x, grad|
