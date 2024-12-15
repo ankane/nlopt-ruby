@@ -158,10 +158,12 @@ module NLopt
       end
     end
 
-    def check_dim(arr)
+    def double_ptr(arr)
+      n = dimension
       if arr.size != dimension
         raise ArgumentError, "size does not match dimension"
       end
+      Fiddle::Pointer[arr.pack("d#{n}")]
     end
 
     def objective_callback(f)
@@ -177,11 +179,6 @@ module NLopt
       res = yield ptr
       check_res res
       ptr.to_s(ptr.size).unpack("d*")
-    end
-
-    def double_ptr(arr)
-      check_dim(arr)
-      Fiddle::Pointer[arr.pack("d#{dimension}")]
     end
   end
 end
