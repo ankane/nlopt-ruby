@@ -182,7 +182,7 @@ module NLopt
         raise Error, msg
       end
 
-      x.to_s(x.size).unpack("d*")
+      read_ptr(x)
     end
 
     def set_local_optimizer(local_opt)
@@ -231,6 +231,10 @@ module NLopt
       Fiddle::Pointer[arr.pack("d#{n}")]
     end
 
+    def read_ptr(ptr)
+      ptr.to_s(ptr.size).unpack("d*")
+    end
+
     def objective_callback(f)
      Fiddle::Closure::BlockCaller.new(Fiddle::TYPE_DOUBLE, [Fiddle::TYPE_UINT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP]) do |n, x, gradient, func_data|
         x = x.to_s(n * Fiddle::SIZEOF_DOUBLE).unpack("d*")
@@ -243,7 +247,7 @@ module NLopt
       ptr = Fiddle::Pointer.malloc(dimension * Fiddle::SIZEOF_DOUBLE)
       res = yield ptr
       check_res res
-      ptr.to_s(ptr.size).unpack("d*")
+      read_ptr(ptr)
     end
   end
 end
