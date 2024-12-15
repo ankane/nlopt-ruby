@@ -41,11 +41,9 @@ class OptTest < Minitest::Test
     assert_equal 100, opt.maxeval
 
     opt.set_upper_bounds(4)
-    assert_equal [4, 4], opt.upper_bounds
     assert_elements_in_delta [4, 4], opt.optimize([2, 3])
 
     opt.set_upper_bounds([3, 4])
-    assert_equal [3, 4], opt.upper_bounds
     assert_elements_in_delta [3, 4], opt.optimize([2, 3])
   end
 
@@ -76,6 +74,46 @@ class OptTest < Minitest::Test
     end
     opt.set_min_objective(f)
     assert_elements_in_delta [0, 0], opt.optimize([1, 1])
+  end
+
+  def test_lower_bounds
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+
+    opt.set_lower_bounds(1)
+    assert_equal [1, 1], opt.lower_bounds
+
+    opt.set_lower_bounds([1, 2])
+    assert_equal [1, 2], opt.lower_bounds
+
+    error = assert_raises(TypeError) do
+      opt.set_lower_bounds(Object.new)
+    end
+    assert_equal "expected array or numeric", error.message
+
+    error = assert_raises(ArgumentError) do
+      opt.set_lower_bounds([1])
+    end
+    assert_equal "size does not match dimension", error.message
+  end
+
+  def test_upper_bounds
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+
+    opt.set_upper_bounds(1)
+    assert_equal [1, 1], opt.upper_bounds
+
+    opt.set_upper_bounds([1, 2])
+    assert_equal [1, 2], opt.upper_bounds
+
+    error = assert_raises(TypeError) do
+      opt.set_upper_bounds(Object.new)
+    end
+    assert_equal "expected array or numeric", error.message
+
+    error = assert_raises(ArgumentError) do
+      opt.set_upper_bounds([1])
+    end
+    assert_equal "size does not match dimension", error.message
   end
 
   def test_numevals

@@ -36,6 +36,7 @@ module NLopt
 
     def set_lower_bounds(lb)
       if lb.is_a?(Array)
+        check_dim(lb)
         check_res FFI.nlopt_set_lower_bounds(@opt, Fiddle::Pointer[lb.pack("d*")])
       elsif lb.is_a?(Numeric)
         check_res FFI.nlopt_set_lower_bounds1(@opt, lb)
@@ -46,6 +47,7 @@ module NLopt
 
     def set_upper_bounds(ub)
       if ub.is_a?(Array)
+        check_dim(ub)
         check_res FFI.nlopt_set_upper_bounds(@opt, Fiddle::Pointer[ub.pack("d*")])
       elsif ub.is_a?(Numeric)
         check_res FFI.nlopt_set_upper_bounds1(@opt, ub)
@@ -104,6 +106,7 @@ module NLopt
 
     def set_xtol_abs(tol)
       if tol.is_a?(Array)
+        check_dim(tol)
         check_res FFI.nlopt_set_xtol_abs(@opt, Fiddle::Pointer[tol.pack("d*")])
       elsif tol.is_a?(Numeric)
         check_res FFI.nlopt_set_xtol_abs1(@opt, tol)
@@ -137,9 +140,7 @@ module NLopt
     end
 
     def optimize(init)
-      if init.size != dimension
-        raise ArgumentError, "size does not match dimension"
-      end
+      check_dim(init)
 
       x = Fiddle::Pointer[init.pack("d*")]
       opt_f = Fiddle::Pointer.malloc(Fiddle::SIZEOF_DOUBLE)
@@ -159,6 +160,12 @@ module NLopt
     def check_res(res)
       if res != 1
         raise Error, "Bad result: #{FFI.nlopt_result_to_string(res).to_s}"
+      end
+    end
+
+    def check_dim(arr)
+      if arr.size != dimension
+        raise ArgumentError, "size does not match dimension"
       end
     end
 
