@@ -54,6 +54,14 @@ module NLopt
       bounds { |ptr| FFI.nlopt_get_upper_bounds(@opt, ptr) }
     end
 
+    def remove_inequality_constraints
+      check_res FFI.nlopt_remove_inequality_constraints(@opt)
+    end
+
+    def remove_equality_constraints
+      check_res FFI.nlopt_remove_equality_constraints(@opt)
+    end
+
     def set_maxeval(maxeval)
       check_res FFI.nlopt_set_maxeval(@opt, maxeval)
     end

@@ -89,6 +89,12 @@ class OptTest < Minitest::Test
     assert_equal numevals, opt.numevals
   end
 
+  def test_nonlinear_constraints
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+    opt.remove_inequality_constraints
+    opt.remove_equality_constraints
+  end
+
   def test_invalid_args
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     f = lambda do |x, grad|
