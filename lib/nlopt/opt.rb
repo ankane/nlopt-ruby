@@ -160,7 +160,7 @@ module NLopt
 
     def double_ptr(arr)
       n = dimension
-      if arr.size != dimension
+      if arr.size != n
         raise ArgumentError, "size does not match dimension"
       end
       Fiddle::Pointer[arr.pack("d#{n}")]
