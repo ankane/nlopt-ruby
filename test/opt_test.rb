@@ -101,6 +101,25 @@ class OptTest < Minitest::Test
     assert_equal 1, opt.stopval
   end
 
+  def test_tol
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+
+    opt.set_ftol_rel(1)
+    assert_equal 1, opt.ftol_rel
+
+    opt.set_ftol_abs(2)
+    assert_equal 2, opt.ftol_abs
+
+    opt.set_xtol_rel(3)
+    assert_equal 3, opt.xtol_rel
+  end
+
+  def test_maxtime
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+    opt.set_maxtime(1)
+    assert_equal 1, opt.maxtime
+  end
+
   def test_invalid_args
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     f = lambda do |x, grad|

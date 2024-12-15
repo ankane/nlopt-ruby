@@ -70,6 +70,38 @@ module NLopt
       FFI.nlopt_get_stopval(@opt)
     end
 
+    def set_ftol_rel(tol)
+      check_res FFI.nlopt_set_ftol_rel(@opt, tol)
+    end
+
+    def ftol_rel
+      FFI.nlopt_get_ftol_rel(@opt)
+    end
+
+    def set_ftol_abs(tol)
+      check_res FFI.nlopt_set_ftol_abs(@opt, tol)
+    end
+
+    def ftol_abs
+      FFI.nlopt_get_ftol_abs(@opt)
+    end
+
+    def set_xtol_rel(tol)
+      check_res FFI.nlopt_set_xtol_rel(@opt, tol)
+    end
+
+    def xtol_rel
+      FFI.nlopt_get_xtol_rel(@opt)
+    end
+
+    def set_maxtime(maxtime)
+      check_res FFI.nlopt_set_maxtime(@opt, maxtime)
+    end
+
+    def maxtime
+      FFI.nlopt_get_maxtime(@opt)
+    end
+
     def set_maxeval(maxeval)
       check_res FFI.nlopt_set_maxeval(@opt, maxeval)
     end
