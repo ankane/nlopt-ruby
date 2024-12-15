@@ -36,8 +36,7 @@ module NLopt
 
     def set_lower_bounds(lb)
       if lb.is_a?(Array)
-        check_dim(lb)
-        check_res FFI.nlopt_set_lower_bounds(@opt, Fiddle::Pointer[lb.pack("d*")])
+        check_res FFI.nlopt_set_lower_bounds(@opt, double_ptr(lb))
       elsif lb.is_a?(Numeric)
         check_res FFI.nlopt_set_lower_bounds1(@opt, lb)
       else
@@ -47,8 +46,7 @@ module NLopt
 
     def set_upper_bounds(ub)
       if ub.is_a?(Array)
-        check_dim(ub)
-        check_res FFI.nlopt_set_upper_bounds(@opt, Fiddle::Pointer[ub.pack("d*")])
+        check_res FFI.nlopt_set_upper_bounds(@opt, double_ptr(ub))
       elsif ub.is_a?(Numeric)
         check_res FFI.nlopt_set_upper_bounds1(@opt, ub)
       else
@@ -106,8 +104,7 @@ module NLopt
 
     def set_xtol_abs(tol)
       if tol.is_a?(Array)
-        check_dim(tol)
-        check_res FFI.nlopt_set_xtol_abs(@opt, Fiddle::Pointer[tol.pack("d*")])
+        check_res FFI.nlopt_set_xtol_abs(@opt, double_ptr(tol))
       elsif tol.is_a?(Numeric)
         check_res FFI.nlopt_set_xtol_abs1(@opt, tol)
       else
@@ -140,9 +137,7 @@ module NLopt
     end
 
     def optimize(init)
-      check_dim(init)
-
-      x = Fiddle::Pointer[init.pack("d*")]
+      x = double_ptr(init)
       opt_f = Fiddle::Pointer.malloc(Fiddle::SIZEOF_DOUBLE)
       res = FFI.nlopt_optimize(@opt, x, opt_f)
 
@@ -182,6 +177,11 @@ module NLopt
       res = yield ptr
       check_res res
       ptr.to_s(ptr.size).unpack("d*")
+    end
+
+    def double_ptr(arr)
+      check_dim(arr)
+      Fiddle::Pointer[arr.pack("d#{dimension}")]
     end
   end
 end
