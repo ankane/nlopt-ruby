@@ -130,7 +130,7 @@ class OptTest < Minitest::Test
     assert_equal numevals, opt.numevals
   end
 
-  def test_inequality_constraints
+  def test_add_inequality_constraint
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     f = lambda do |x, grad|
       x[0] + x[1]
@@ -146,6 +146,27 @@ class OptTest < Minitest::Test
       -(x[1] - 2)
     end
     opt.add_inequality_constraint(fc)
+
+    opt.set_maxeval(1000)
+    assert_elements_in_delta [1, 2], opt.optimize([0, 0])
+  end
+
+  def test_add_equality_constraint
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+    f = lambda do |x, grad|
+      x[0] + x[1]
+    end
+    opt.set_min_objective(f)
+
+    h = lambda do |x, grad|
+      x[0] - 1
+    end
+    opt.add_equality_constraint(h)
+
+    h = lambda do |x, grad|
+      x[1] - 2
+    end
+    opt.add_equality_constraint(h)
 
     opt.set_maxeval(1000)
     assert_elements_in_delta [1, 2], opt.optimize([0, 0])
