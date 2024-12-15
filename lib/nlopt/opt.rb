@@ -203,6 +203,14 @@ module NLopt
       FFI.nlopt_get_population(@opt)
     end
 
+    def set_vector_storage(dim)
+      check_res FFI.nlopt_set_vector_storage(@opt, dim)
+    end
+
+    def vector_storage
+      FFI.nlopt_get_vector_storage(@opt)
+    end
+
     private
 
     def check_res(res)

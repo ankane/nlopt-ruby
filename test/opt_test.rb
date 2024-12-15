@@ -203,6 +203,12 @@ class OptTest < Minitest::Test
     assert_equal 1, opt.population
   end
 
+  def test_vector_storage
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+    opt.set_vector_storage(1)
+    assert_equal 1, opt.vector_storage
+  end
+
   def test_srand
     NLopt.srand(42)
     NLopt.srand_time
