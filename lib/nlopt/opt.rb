@@ -14,6 +14,14 @@ module NLopt
       @opt.free = FFI["nlopt_destroy"]
     end
 
+    def dimension
+      FFI.nlopt_get_dimension(@opt)
+    end
+
+    def algorithm_name
+      FFI.nlopt_algorithm_name(FFI.nlopt_get_algorithm(@opt)).to_s
+    end
+
     def set_min_objective(f)
       cb = objective_callback(f)
       check_res FFI.nlopt_set_min_objective(@opt, cb, nil)
@@ -94,6 +102,14 @@ module NLopt
       FFI.nlopt_get_xtol_rel(@opt)
     end
 
+    def set_maxeval(maxeval)
+      check_res FFI.nlopt_set_maxeval(@opt, maxeval)
+    end
+
+    def maxeval
+      FFI.nlopt_get_maxeval(@opt)
+    end
+
     def set_maxtime(maxtime)
       check_res FFI.nlopt_set_maxtime(@opt, maxtime)
     end
@@ -102,8 +118,8 @@ module NLopt
       FFI.nlopt_get_maxtime(@opt)
     end
 
-    def set_maxeval(maxeval)
-      check_res FFI.nlopt_set_maxeval(@opt, maxeval)
+    def numevals
+      FFI.nlopt_get_numevals(@opt)
     end
 
     def optimize(init)
@@ -122,18 +138,6 @@ module NLopt
       end
 
       x.to_s(x.size).unpack("d*")
-    end
-
-    def algorithm_name
-      FFI.nlopt_algorithm_name(FFI.nlopt_get_algorithm(@opt)).to_s
-    end
-
-    def dimension
-      FFI.nlopt_get_dimension(@opt)
-    end
-
-    def numevals
-      FFI.nlopt_get_numevals(@opt)
     end
 
     private

@@ -38,6 +38,7 @@ class OptTest < Minitest::Test
     end
     opt.set_max_objective(f)
     opt.set_maxeval(100)
+    assert_equal 100, opt.maxeval
 
     opt.set_upper_bounds(4)
     assert_equal [4, 4], opt.upper_bounds
