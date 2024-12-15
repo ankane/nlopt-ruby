@@ -77,6 +77,8 @@ class OptTest < Minitest::Test
   def test_lower_bounds
     opt = NLopt::Opt.new("LN_COBYLA", 2)
 
+    assert_equal [-Float::INFINITY, -Float::INFINITY], opt.lower_bounds
+
     opt.set_lower_bounds(1)
     assert_equal [1, 1], opt.lower_bounds
 
@@ -96,6 +98,8 @@ class OptTest < Minitest::Test
 
   def test_upper_bounds
     opt = NLopt::Opt.new("LN_COBYLA", 2)
+
+    assert_equal [Float::INFINITY, Float::INFINITY], opt.upper_bounds
 
     opt.set_upper_bounds(1)
     assert_equal [1, 1], opt.upper_bounds
