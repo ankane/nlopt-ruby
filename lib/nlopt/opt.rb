@@ -14,6 +14,8 @@ module NLopt
 
       @opt = FFI.nlopt_create(algorithm, n)
       @opt.free = FFI["nlopt_destroy"]
+
+      @inequality_constraints = []
     end
 
     def dimension
@@ -64,8 +66,15 @@ module NLopt
       out_dptr { |ptr| FFI.nlopt_get_upper_bounds(@opt, ptr) }
     end
 
+    def add_inequality_constraint(fc, tol: 0)
+      cb = objective_callback(fc)
+      check_res FFI.nlopt_add_inequality_constraint(@opt, cb, nil, tol)
+      @inequality_constraints << cb # keep reference
+    end
+
     def remove_inequality_constraints
       check_res FFI.nlopt_remove_inequality_constraints(@opt)
+      @inequality_constraints.clear
     end
 
     def remove_equality_constraints
