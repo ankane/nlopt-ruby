@@ -150,6 +150,27 @@ module NLopt
       FFI.nlopt_get_numevals(@opt)
     end
 
+    def set_param(name, val)
+      check_res FFI.nlopt_set_param(@opt, name, val)
+    end
+
+    def param(name, defaultval)
+      FFI.nlopt_get_param(@opt, name, defaultval)
+    end
+
+    def has_param?(name)
+      FFI.nlopt_has_param(@opt, name) == 1
+    end
+
+    def num_params
+      FFI.nlopt_num_params(@opt)
+    end
+
+    def nth_param(n)
+      ptr = FFI.nlopt_nth_param(@opt, n)
+      !ptr.null? ? ptr.to_s : nil
+    end
+
     def optimize(init)
       x = double_ptr(init)
       opt_f = Fiddle::Pointer.malloc(Fiddle::SIZEOF_DOUBLE)

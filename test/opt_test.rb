@@ -175,6 +175,19 @@ class OptTest < Minitest::Test
     assert_equal 1, opt.maxtime
   end
 
+  def test_params
+    opt = NLopt::Opt.new("LN_COBYLA", 2)
+    assert_equal 0, opt.num_params
+    assert_equal false, opt.has_param?("name")
+    assert_equal 1, opt.param("name", 1)
+    opt.set_param("name", 2)
+    assert_equal true, opt.has_param?("name")
+    assert_equal 2, opt.param("name", 1)
+    assert_equal 1, opt.num_params
+    assert_equal "name", opt.nth_param(0)
+    assert_nil opt.nth_param(1)
+  end
+
   def test_invalid_args
     opt = NLopt::Opt.new("LN_COBYLA", 2)
     f = lambda do |x, grad|
