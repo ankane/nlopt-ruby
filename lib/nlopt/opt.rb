@@ -192,7 +192,7 @@ module NLopt
 
     def optimize(init)
       x = alloc_dptr(init)
-      opt_f = Fiddle::Pointer.malloc(Fiddle::SIZEOF_DOUBLE)
+      opt_f = Fiddle::Pointer.malloc(Fiddle::SIZEOF_DOUBLE, Fiddle::RUBY_FREE)
       res = FFI.nlopt_optimize(@opt, x, opt_f)
 
       if res < 0 && res != -4
@@ -270,7 +270,7 @@ module NLopt
     end
 
     def out_dptr
-      ptr = Fiddle::Pointer.malloc(dimension * Fiddle::SIZEOF_DOUBLE)
+      ptr = Fiddle::Pointer.malloc(dimension * Fiddle::SIZEOF_DOUBLE, Fiddle::RUBY_FREE)
       res = yield ptr
       check_res res
       read_dptr(ptr)

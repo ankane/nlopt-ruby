@@ -1,3 +1,7 @@
+## 0.1.3 (unreleased)
+
+- Fixed memory leaks
+
 ## 0.1.2 (2024-12-16)
 
 - Added `add_inequality_constraint` and `add_equality_constraint` methods
