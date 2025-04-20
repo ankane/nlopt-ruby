@@ -35,7 +35,7 @@ module NLopt
   def self.lib_version
     major, minor, bugfix = 3.times.map { Fiddle::Pointer.malloc(Fiddle::SIZEOF_INT, Fiddle::RUBY_FREE) }
     FFI.nlopt_version(major, minor, bugfix)
-    [major, minor, bugfix].map { |v| v.to_s(v.size).unpack1("i") }.join(".")
+    [major, minor, bugfix].map { |v| v.to_str(v.size).unpack1("i") }.join(".")
   end
 
   def self.srand(seed)

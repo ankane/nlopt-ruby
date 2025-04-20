@@ -266,7 +266,7 @@ module NLopt
 
     def read_dptr(ptr, size = nil)
       size ||= ptr.size
-      ptr.to_s(size).unpack("d*")
+      ptr.to_str(size).unpack("d*")
     end
 
     def out_dptr
