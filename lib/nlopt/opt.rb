@@ -3,7 +3,7 @@ module NLopt
     attr_reader :last_optimum_value
 
     def initialize(algorithm, n)
-      algorithm = FFI.nlopt_algorithm_from_string(algorithm)
+      algorithm = FFI.nlopt_algorithm_from_string(+algorithm)
       if algorithm < 0
         raise ArgumentError, "Invalid algorithm"
       end
@@ -170,15 +170,15 @@ module NLopt
     end
 
     def set_param(name, val)
-      check_res FFI.nlopt_set_param(@opt, name, val)
+      check_res FFI.nlopt_set_param(@opt, +name, val)
     end
 
     def param(name, defaultval)
-      FFI.nlopt_get_param(@opt, name, defaultval)
+      FFI.nlopt_get_param(@opt, +name, defaultval)
     end
 
     def has_param?(name)
-      FFI.nlopt_has_param(@opt, name) == 1
+      FFI.nlopt_has_param(@opt, +name) == 1
     end
 
     def num_params
