@@ -3,6 +3,21 @@ Bundler.require(:default)
 require "minitest/autorun"
 
 class Minitest::Test
+  def setup
+    # autoload before GC.stress
+    NLopt::FFI if stress?
+
+    GC.stress = true if stress?
+  end
+
+  def teardown
+    GC.stress = false if stress?
+  end
+
+  def stress?
+    ENV["STRESS"]
+  end
+
   def assert_elements_in_delta(expected, actual)
     assert_equal expected.size, actual.size
     expected.zip(actual) do |exp, act|
