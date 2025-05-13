@@ -197,7 +197,7 @@ module NLopt
 
       if res < 0 && res != -4
         errmsg = FFI.nlopt_get_errmsg(@opt)
-        msg = !errmsg.null? ? errmsg.to_s : "Bad result: #{FFI.nlopt_result_to_string(res).to_s}"
+        msg = !errmsg.null? ? errmsg.to_s : "Bad result: #{FFI.nlopt_result_to_string(res)}"
         raise Error, msg
       end
 
@@ -252,7 +252,7 @@ module NLopt
 
     def check_res(res)
       if res != 1
-        raise Error, "Bad result: #{FFI.nlopt_result_to_string(res).to_s}"
+        raise Error, "Bad result: #{FFI.nlopt_result_to_string(res)}"
       end
     end
 
