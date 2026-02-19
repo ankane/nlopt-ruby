@@ -17,6 +17,7 @@ class OptTest < Minitest::Test
       x[0] + x[1]
     end
     opt.set_min_objective(f)
+    opt.set_maxeval(100)
 
     opt.set_lower_bounds(1)
     assert_equal [1, 1], opt.lower_bounds
